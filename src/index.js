@@ -5,13 +5,41 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+const forbidenWords = {
+    "Q": "",
+    "X": "",
+    "W": "",
+    "Ё": "Е",
+    "q": "",
+    "x": "",
+    "w": "",
+    "ё": "е"
+}
+root.render(<Content />)
+
+function Content() {
+    const [text, setText] = React.useState("");
+
+    React.useEffect(() => {
+        //setText(text.toUpperCase());
+        if (text != "") {
+            if (text[text.length - 1] in forbidenWords) {
+                setText(text.slice(0, -1) + forbidenWords[text[text.length - 1]])
+            }
+        }
+    })
+
+    function fixText(event) {
+        setText(event.target.value);
+    }
+    return(
+        <>
+            <h1>Текстовое поле</h1>
+            <textarea id="inp" placeholder="Введите текст" cols="80" rows="16" onChange={fixText} value={text} />
+            <p></p>
+        </>
+    )
+}
+
 reportWebVitals();
